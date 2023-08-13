@@ -2,7 +2,17 @@
 {
     public class ProcessingService
     {
-        public void ConvertImage(string path, string thumbnailPath, int targetSize)
+
+        
+
+        public void ConvertImages(string path, string thumbnailPath, List<int> targetSizes)
+        {
+            foreach (var size in targetSizes)
+            {
+                ConvertImage(path, thumbnailPath, size);
+            }
+        }
+        private void ConvertImage(string path, string thumbnailPath, int targetSize)
         {
             var image = NetVips.Image.NewFromFile(path);
 
