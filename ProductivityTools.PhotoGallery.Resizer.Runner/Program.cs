@@ -13,4 +13,4 @@ var thumbNailPath = configuration["ThumbnailPath"];
 List<int> thumbNailSizes = configuration["ThumbNailSizes"].Split(',').Select(x => int.Parse(x)).ToList();
 
 ProcessingService ps = new ProcessingService();
-ps.ConvertImages(photoPath, thumbNailPath, thumbNailSizes);
+ps.ValidateThumbNails(photoPath, thumbNailPath, thumbNailSizes);
