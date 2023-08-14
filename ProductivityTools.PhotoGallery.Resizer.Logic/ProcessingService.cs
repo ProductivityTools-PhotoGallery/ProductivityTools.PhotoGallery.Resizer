@@ -3,10 +3,12 @@
     public class ProcessingService
     {
         private readonly Action<string> Logger;
+        private readonly PhotoJasonManager PhotoJasonManager;
         public ProcessingService(Action<string> logger)
         {
 
             this.Logger = logger;
+            this.PhotoJasonManager = new PhotoJasonManager();
         }
         public void ValidateThumNailsForAllDirectories(string photoDirectoryContainer, string thumbnailPath, List<int> targetSizes)
         {
@@ -35,10 +37,10 @@
 
         private void ProcessPicture(string photoDirectoryMasterContainer, string originalPhotoDirectory, string thumbNailDirectory, string filePath, List<int> targetSizes)
         {
+            this.PhotoJasonManager.AddPhotoSize(filePath);
             foreach (var size in targetSizes)
             {
                 this.Logger(string.Format($"Validating size: {size} for directory: {originalPhotoDirectory}"));
-
                 ValidateThumbNails(photoDirectoryMasterContainer, originalPhotoDirectory, thumbNailDirectory, filePath, size);
             }
         }
