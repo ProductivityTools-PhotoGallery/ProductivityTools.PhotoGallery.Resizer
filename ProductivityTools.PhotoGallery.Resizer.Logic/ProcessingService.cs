@@ -41,6 +41,7 @@
             foreach (var size in targetSizes)
             {
                 this.Logger(string.Format($"Validating size: {size} for directory: {originalPhotoDirectory}"));
+                this.PhotoJasonManager.AddThumbNailSize(filePath,size);
                 ValidateThumbNails(photoDirectoryMasterContainer, originalPhotoDirectory, thumbNailDirectory, filePath, size);
             }
         }

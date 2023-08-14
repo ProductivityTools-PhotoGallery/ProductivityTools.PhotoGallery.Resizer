@@ -12,9 +12,11 @@ namespace ProductivityTools.PhotoGallery.Resizer.Logic.GaleryMetadata
         public Gallery()
         {
             this.ImageList = new List<Image>();
+            this.ImageSizes = new List<int>();
         }
         public List<string> ReadGmails { get; set; }
 
         public List<Image> ImageList { get; set; }
-    }
+        public List<int> ImageSizes { get; set; }
+    } 
 }

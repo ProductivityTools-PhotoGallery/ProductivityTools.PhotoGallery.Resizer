@@ -14,37 +14,63 @@ namespace ProductivityTools.PhotoGallery.Resizer.Logic
     internal class PhotoJasonManager
     {
         private const string MetadataName = ".photo.json";
-        public void  AddPhotoSize(string filePath)
+
+        private Gallery Gallery { get; set; }   
+
+        private string GetPhotoMetadataPath(string filePath)
         {
-            var photoGalleryPath=Path.GetDirectoryName(filePath);
-            var fileName = Path.GetFileName(filePath);
+            var photoGalleryPath = Path.GetDirectoryName(filePath);
             var photoMetadataPath = Path.Join(photoGalleryPath, MetadataName);
-            Gallery gallery = null;
+            return photoMetadataPath; 
+        }
+        private void LoadGallery(string filePath)
+        {
+            var photoMetadataPath = GetPhotoMetadataPath(filePath);
             if (System.IO.File.Exists(photoMetadataPath))
             {
-                var joson=File.ReadAllText(photoMetadataPath);
-                gallery = JsonSerializer.Deserialize<Gallery>(joson);
+                var joson = File.ReadAllText(photoMetadataPath);
+                this.Gallery = JsonSerializer.Deserialize<Gallery>(joson);
             }
             else
             {
-                gallery = new Gallery();
+                this.Gallery = new Gallery();
             }
-            var image = gallery.ImageList.FirstOrDefault(x => x.Name == fileName);
+        }
+
+        private void SaveGallery(string filePath)
+        {
+            string json = JsonSerializer.Serialize(this.Gallery);
+            var photoMetadataPath = GetPhotoMetadataPath(filePath);
+            File.WriteAllText(photoMetadataPath, json);
+        }
+
+        public void AddPhotoSize(string filePath)
+        {
+            LoadGallery(filePath);
+            var fileName = Path.GetFileName(filePath);
+            var image = this.Gallery.ImageList.FirstOrDefault(x => x.Name == fileName);
             if (image == null)
             {
                 image = new Image();
                 image.Name = fileName;
-                gallery.ImageList.Add(image);
+                this.Gallery.ImageList.Add(image);
 
                 Bitmap img = new Bitmap(filePath);
 
                 image.Height = img.Height;
                 image.Width = img.Width;
             }
-            
+            SaveGallery(filePath);
+        }
 
-            string json = JsonSerializer.Serialize(gallery);
-            File.WriteAllText(photoMetadataPath, json);
+        public void AddThumbNailSize(string filePath, int size)
+        {
+            LoadGallery(filePath);
+            if(this.Gallery.ImageSizes.Contains(size)==false)
+            {
+                this.Gallery.ImageSizes.Add(size);
+            }
+            SaveGallery(filePath);
         }
     }
 }
