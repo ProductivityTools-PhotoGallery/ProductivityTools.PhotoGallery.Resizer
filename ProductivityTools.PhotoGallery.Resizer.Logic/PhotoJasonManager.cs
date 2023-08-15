@@ -1,4 +1,4 @@
-﻿using ProductivityTools.PhotoGallery.Resizer.Logic.GaleryMetadata;
+﻿using ProductivityTools.PhotoGallery.CoreObjects;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,12 +7,13 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Image = ProductivityTools.PhotoGallery.Resizer.Logic.GaleryMetadata.Image;
+using Image = ProductivityTools.PhotoGallery.CoreObjects.Image;
 
 namespace ProductivityTools.PhotoGallery.Resizer.Logic
 {
     internal class PhotoJasonManager
     {
+        //replace from core objects
         private const string MetadataName = ".photo.json";
 
         private Gallery Gallery { get; set; }   
