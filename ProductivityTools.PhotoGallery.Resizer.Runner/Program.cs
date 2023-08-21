@@ -10,7 +10,7 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
 .Build();
 var photoPath = configuration["PhotoPath"];
 var thumbNailPath = configuration["ThumbnailPath"];
-List<int> thumbNailSizes = configuration["ThumbNailSizes"].Split(',').Select(x => int.Parse(x)).ToList();
+List<int> targetWidthSizes = configuration["ThumbNailWidthSizes"].Split(',').Select(x => int.Parse(x)).ToList();
 
 ProcessingService ps = new ProcessingService((x) => Console.WriteLine(x));
-ps.ValidateThumNailsForAllDirectories(photoPath, thumbNailPath, thumbNailSizes);
+ps.ValidateThumNailsForAllDirectories(photoPath, thumbNailPath, targetWidthSizes);
